@@ -37,5 +37,6 @@ submitButton.addEventListener('submit', (event) => {
     })
     .catch((err) => {
       console.log(err.errors);
+      console.log(err.errors);
     });
 });
