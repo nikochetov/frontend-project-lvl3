@@ -36,7 +36,7 @@ submitButton.addEventListener('submit', (event) => {
       requestData(formValue.name);
     })
     .catch((err) => {
-      console.log(err.errors);
+      watchedState.errors.formErrors = err.errors;
       console.log(err.errors);
     });
 });

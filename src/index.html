@@ -1,22 +1,33 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>RSS Reader</title>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>RSS Reader</title>
 </head>
 <body>
-  <section class="input-section">
+<section class="input-section">
+    <!--    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="5000"-->
+    <!--         style="position: absolute; top: 0; right: 0;">-->
+    <!--      <div class="toast-body"></div>-->
+    <!--    </div>-->
     <h1>RSS Reader</h1>
-    <form class="form-inline">
-      <div class="form-group mx-sm-3 mb-2">
-        <label for="inputText" class="sr-only">RSS link</label>
-        <input name="rssInput" type="text" class="form-control" id="inputText" placeholder="RSS link">
-      </div>
-      <input type="submit" value="Add" class="btn btn-primary mb-2">
+    <form class="container">
+        <div class="row">
+            <div class="col-8">
+                <label for="inputText" class="sr-only">RSS link</label>
+                <input name="rssInput" type="text" class="form-control form-control-lg" id="inputText"
+                       placeholder="RSS link">
+                <div class="invalid-feedback"></div>
+            </div>
+            <div class="col-4">
+            <input type="submit" value="Add" class="btn btn-lg btn-primary px-sm-5">
+            </div>
+        </div>
+
     </form>
-  </section>
+</section>
 </body>
 </html>
