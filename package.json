@@ -37,6 +37,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "bootstrap": "^4.5.3",
+    "i18next": "^20.6.1",
     "jquery": "^3.6.0",
     "on-change": "^4.0.0",
     "yup": "^0.32.9"

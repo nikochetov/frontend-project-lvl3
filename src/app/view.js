@@ -1,14 +1,13 @@
 import onChange from 'on-change';
 
-export default (state) => {
+export default (state, i18nInstance) => {
   const input = document.querySelector('input');
   const formErrorContainer = document.querySelector('.invalid-feedback');
   const wathedState = onChange(state, (path, value) => {
     input.classList.remove('is-invalid');
-    if (path === 'errors.formErrors' && value.length) {
+    if (path === 'errors.formError' && value.length) {
       console.log(value)
-      const [error] = value;
-      formErrorContainer.textContent = error || '';
+      formErrorContainer.textContent = i18nInstance.t(value) || '';
       input.classList.add('is-invalid');
     }
   });

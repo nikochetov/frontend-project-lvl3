@@ -1,3 +1,6 @@
+start:
+	webpack serve --open
+
 develop:
 	npx webpack serve
 
