@@ -7,13 +7,14 @@ import resources from './locales';
 import initView from './app/view';
 import feedDoublesValidator from './validators/feedDoublesValidator';
 import formValidator from './validators/rssUrlValidator'
+import parser from './app/parser';
 
 const app = () => {
   const submitButton = document.querySelector('form');
 
   const i18nInstance = i18next.createInstance();
 
-  const defaultLanguage = 'en';
+  const defaultLanguage = 'ru';
 
   i18nInstance.init({
     lng: defaultLanguage,
@@ -46,6 +47,7 @@ const app = () => {
 
   const requestData = (address) => {
     axios.get(address)
+      .then((response) => parser(response.data))
       .then((response) => console.log(response.data))
       .catch((err) => console.log(err.response));
   };
@@ -63,7 +65,6 @@ const app = () => {
       })
       .catch((err) => {
         const [error] = err.errors;
-        console.log('err0r:::::', error);
         watchedState.errors.formError = error;
       });
   });

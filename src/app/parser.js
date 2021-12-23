@@ -1,35 +1,23 @@
-// const parseXml = (xml) => {
-//   const parser = new DOMParser();
-//   return parser.parseFromString(xml, 'application/xml');
-// };
-//
-// const createObj = (elem) => {
-//   return Array.from(elem.children).reduce((acc, cur) => {
-//     return { ...acc, [cur.tagName]: cur.textContent };
-//   }, {});
-// };
-//
-// const parseHtml = (html) => {
-//   console.log(html)
-//   const channel = html.querySelector('channel');
-//   const channelObj = createObj(channel);
-//   const items = channel.querySelectorAll('item');
-//   const itemsOdj = Array.from(items).map((item) => {
-//     return createObj(item);
-//   });
-//
-//   return ({
-//     ...channelObj, items: itemsOdj,
-//   });
-// };
-//
+const parseXmlToHtml = (xml) => {
+  const parser = new DOMParser();
+  return parser.parseFromString(xml, 'application/xml');
+};
 
-// const parsedHtml = (html) => {
-//
-// }
-//
-// export default (data) => {
-//   const parsedXml = parseXml(data);
-//   const parsedHtml = parseHtml(parsedXml);
-//   console.log(parsedHtml)
-// };
+const parseHtmlToObj = (elems) => {
+  return Array.from(elems).reduce((acc, current) => {
+    if (current.childElementCount) {
+      const items = acc.items || [];
+      return ({ ...acc, items: [...items, parseHtmlToObj(current.children)] });
+    }
+
+    return ({ ...acc, [current.tagName]: current.textContent });
+  }, {});
+};
+
+const getRssChannel = (html) => html.querySelector('channel');
+
+export default (data) => {
+  const parsedXml = parseXmlToHtml(data);
+  const channel = getRssChannel(parsedXml);
+  return parseHtmlToObj(channel);
+};
