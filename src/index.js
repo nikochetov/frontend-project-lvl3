@@ -48,7 +48,7 @@ const app = () => {
   const requestData = (address) => {
     axios.get(address)
       .then((response) => parser(response.data))
-      .then((response) => console.log(response.data))
+      .then((data) => console.log('parsed:::::;:::::', data))
       .catch((err) => console.log(err.response));
   };
 
