@@ -3,10 +3,9 @@ import axios from 'axios';
 import i18next from 'i18next';
 import { setLocale } from 'yup';
 import resources from './locales';
-// import parser from './app/parser';
 import initView from './app/view';
 import feedDoublesValidator from './validators/feedDoublesValidator';
-import formValidator from './validators/rssUrlValidator'
+import formValidator from './validators/rssUrlValidator';
 import parser from './app/parser';
 
 const app = () => {
@@ -30,8 +29,8 @@ const app = () => {
     },
     string: {
       url: 'formErrors.invalid_url',
-    }
-  })
+    },
+  });
 
   const state = {
     status: 'invalid',
@@ -45,9 +44,11 @@ const app = () => {
 
   const watchedState = initView(state, i18nInstance);
 
+  const buildAddressWithProxy = (address) => `https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent(address)}`;
+
   const requestData = (address) => {
-    axios.get(address)
-      .then((response) => parser(response.data))
+    axios.get(buildAddressWithProxy(address))
+      .then((response) => parser(response.data.contents))
       .then((data) => console.log('parsed:::::;:::::', data))
       .catch((err) => console.log(err.response));
   };
@@ -57,7 +58,8 @@ const app = () => {
     const formData = new FormData(event.target);
     const data = formData.get('rssInput');
     Promise.all([
-      formValidator().validate({ name: data }), feedDoublesValidator(state.feedsName).validate(data),
+      formValidator().validate({ name: data }),
+      feedDoublesValidator(state.feedsName).validate(data),
     ])
       .then(([formValue]) => {
         watchedState.feedsName.push(formValue.name);
@@ -68,6 +70,6 @@ const app = () => {
         watchedState.errors.formError = error;
       });
   });
-}
+};
 
-app()
+app();
