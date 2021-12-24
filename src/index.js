@@ -54,8 +54,8 @@ const app = () => {
   const setDataToState = (data) => {
     const feed = Object.entries(data).reduce((acc, [key, value]) => (key.includes('items') ? acc : { ...acc, [key]: value }), {});
     const posts = data.items;
-    state.feedsData.posts = [...posts, ...state.feedsData.posts];
-    state.feedsData.feeds = [feed, ...state.feedsData.feeds];
+    watchedState.feedsData.posts = [...posts, ...state.feedsData.posts];
+    watchedState.feedsData.feeds = [feed, ...state.feedsData.feeds];
   };
 
   const requestData = (address) => {
