@@ -17,9 +17,9 @@ const parseXmlToObj = (elems) => {
 };
 
 const setIds = (parsedData) => {
-  const parentId = _.uniqueId();
-  const itemsWithId = parsedData.items.map((item) => ({ ...item, parentId, id: _.uniqueId() }));
-  return ({ ...parsedData, id: parentId, items: itemsWithId });
+  const feedId = _.uniqueId();
+  const itemsWithId = parsedData.items.map((item) => ({ ...item, feedId, id: _.uniqueId() }));
+  return ({ ...parsedData, id: feedId, items: itemsWithId });
 };
 
 const getChannel = (html) => html.querySelector('channel');

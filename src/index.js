@@ -7,6 +7,7 @@ import initView from './app/view';
 import feedDoublesValidator from './validators/feedDoublesValidator';
 import formValidator from './validators/rssUrlValidator';
 import parser from './app/parser';
+import { value } from 'lodash/seq';
 
 const app = () => {
   const submitButton = document.querySelector('form');
@@ -34,7 +35,11 @@ const app = () => {
 
   const state = {
     status: 'invalid',
-    feedsName: [],
+    feedsData: {
+      feedsAddresses: [],
+      feeds: [],
+      posts: [],
+    },
     errors: {
       formError: '',
       requestErrors: [],
@@ -46,10 +51,17 @@ const app = () => {
 
   const buildAddressWithProxy = (address) => `https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent(address)}`;
 
+  const setDataToState = (data) => {
+    const feed = Object.entries(data).reduce((acc, [key, value]) => (key.includes('items') ? acc : { ...acc, [key]: value }), {});
+    const posts = data.items;
+    state.feedsData.posts = [...posts, ...state.feedsData.posts];
+    state.feedsData.feeds = [feed, ...state.feedsData.feeds];
+  };
+
   const requestData = (address) => {
     axios.get(buildAddressWithProxy(address))
       .then((response) => parser(response.data.contents))
-      .then((data) => console.log('parsed:::::;:::::', data))
+      .then((data) => setDataToState(data))
       .catch((err) => console.log(err.response));
   };
 
@@ -59,10 +71,10 @@ const app = () => {
     const data = formData.get('rssInput');
     Promise.all([
       formValidator().validate({ name: data }),
-      feedDoublesValidator(state.feedsName).validate(data),
+      feedDoublesValidator(state.feedsData.feedsAddresses).validate(data),
     ])
       .then(([formValue]) => {
-        watchedState.feedsName.push(formValue.name);
+        watchedState.feedsData.feedsAddresses.push(formValue.name);
         requestData(formValue.name);
       })
       .catch((err) => {
