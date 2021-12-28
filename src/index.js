@@ -35,8 +35,8 @@ const app = () => {
 
   const state = {
     status: 'invalid',
+    feedsAddresses: [],
     feedsData: {
-      feedsAddresses: [],
       feeds: [],
       posts: [],
     },
@@ -62,7 +62,10 @@ const app = () => {
     axios.get(buildAddressWithProxy(address))
       .then((response) => parser(response.data.contents))
       .then((data) => setDataToState(data))
-      .catch((err) => console.log(err.response));
+      .catch((err) => {
+        watchedState.errors.requestErrors.push(err);
+        watchedState.status = 'requestError';
+      });
   };
 
   submitButton.addEventListener('submit', (event) => {
@@ -71,10 +74,11 @@ const app = () => {
     const data = formData.get('rssInput');
     Promise.all([
       formValidator().validate({ name: data }),
-      feedDoublesValidator(state.feedsData.feedsAddresses).validate(data),
+      feedDoublesValidator(state.feedsAddresses).validate(data),
     ])
       .then(([formValue]) => {
-        watchedState.feedsData.feedsAddresses.push(formValue.name);
+        watchedState.feedsAddresses.push(formValue.name);
+        watchedState.status = 'valid';
         requestData(formValue.name);
       })
       .catch((err) => {
