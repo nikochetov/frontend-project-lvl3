@@ -8,5 +8,13 @@ export default {
     connectionErrors: {
       request_errors: 'Connection error',
     },
+    contentHeader: {
+      feeds: 'Feeds',
+      posts: 'Posts',
+    },
+    buttons: {
+      addButton: 'Add',
+      moreButton: 'More',
+    },
   },
 };

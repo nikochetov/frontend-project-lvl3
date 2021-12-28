@@ -8,5 +8,13 @@ export default {
     connectionErrors: {
       request_errors: 'Ошибка соединения',
     },
+    contentHeader: {
+      feeds: 'Фиды',
+      posts: 'Посты',
+    },
+    buttons: {
+      addButton: 'Добавить',
+      moreButton: 'Просмотр',
+    },
   },
 };
