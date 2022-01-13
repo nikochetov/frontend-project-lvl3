@@ -7,7 +7,6 @@ import initView from './app/view';
 import feedDoublesValidator from './validators/feedDoublesValidator';
 import formValidator from './validators/rssUrlValidator';
 import parser from './app/parser';
-import { value } from 'lodash/seq';
 
 const app = () => {
   const submitButton = document.querySelector('form');
@@ -52,21 +51,60 @@ const app = () => {
   const buildAddressWithProxy = (address) => `https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent(address)}`;
 
   const setDataToState = (data) => {
-    const feed = Object.entries(data).reduce((acc, [key, value]) => (key.includes('items') ? acc : { ...acc, [key]: value }), {});
+    const feed = Object.entries(data).reduce((acc, [key, value]) => (key.includes('items') ? acc : {
+      ...acc,
+      [key]: value
+    }), {});
     const posts = data.items;
     watchedState.feedsData.posts = [...posts, ...state.feedsData.posts];
     watchedState.feedsData.feeds = [feed, ...state.feedsData.feeds];
   };
 
-  const requestData = (address) => {
-    axios.get(buildAddressWithProxy(address))
-      .then((response) => parser(response.data.contents))
-      .then((data) => setDataToState(data))
-      .catch((err) => {
-        watchedState.errors.requestErrors.push(err);
-        watchedState.status = 'requestError';
-      });
+  const clearData = () => {
+    watchedState.feedsData.posts = [];
+    watchedState.feedsData.feeds = [];
+  }
+
+  const setErrorToState = (error) => {
+    watchedState.errors.requestErrors.push(error);
+  }
+
+  const clearRequestErrors = () => {
+    watchedState.errors.requestErrors = [];
+  }
+
+  const requestData = (addresses) => {
+    Promise.all(addresses.map((address) => axios.get(buildAddressWithProxy(address))))
+      .then(axios.spread((...data) => {
+        const parsedData = data.map((elem) => {
+          return parser(elem.data.contents);
+        });
+
+        return parsedData;
+      }))
+      .then((data) => {
+        console.log('parsedData::::::', data);
+        clearData();
+        data.forEach((dataItem) => {
+          if (!dataItem.status?.error) {
+            setDataToState(dataItem);
+          }
+        })
+      })
   };
+
+  let requestDelay = 0;
+
+  let timerId = setTimeout(function request() {
+    requestData(state.feedsAddresses);
+
+    requestDelay = 5000
+    timerId = null;
+    timerId = setTimeout(request, requestDelay);
+    console.log(timerId)
+
+  }, requestDelay);
+
 
   submitButton.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -79,7 +117,10 @@ const app = () => {
       .then(([formValue]) => {
         watchedState.feedsAddresses.push(formValue.name);
         watchedState.status = 'valid';
-        requestData(formValue.name);
+      })
+      .then(() => {
+        console.log('feedsAddresses::::::', state.feedsAddresses);
+        requestData(state.feedsAddresses);
       })
       .catch((err) => {
         const [error] = err.errors;
