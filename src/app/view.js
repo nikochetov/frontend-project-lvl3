@@ -96,7 +96,6 @@ export default (state, i18Instance) => {
     }
 
     const properties = Object.keys(watchedState.feedsData);
-
     const isValid = watchedState.status === 'valid';
 
     properties.forEach((prop) => {
