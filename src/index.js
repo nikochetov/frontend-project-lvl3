@@ -76,14 +76,11 @@ const app = () => {
   const requestData = (addresses) => {
     Promise.all(addresses.map((address) => axios.get(buildAddressWithProxy(address))))
       .then(axios.spread((...data) => {
-        const parsedData = data.map((elem) => {
+        return data.map((elem) => {
           return parser(elem.data.contents);
         });
-
-        return parsedData;
       }))
       .then((data) => {
-        console.log('parsedData::::::', data);
         clearData();
         data.forEach((dataItem) => {
           if (!dataItem.status?.error) {
@@ -93,16 +90,12 @@ const app = () => {
       })
   };
 
-  let requestDelay = 0;
+  const requestDelay = 5000;
 
   let timerId = setTimeout(function request() {
     requestData(state.feedsAddresses);
-
-    requestDelay = 5000
     timerId = null;
     timerId = setTimeout(request, requestDelay);
-    console.log(timerId)
-
   }, requestDelay);
 
 
@@ -119,7 +112,6 @@ const app = () => {
         watchedState.status = 'valid';
       })
       .then(() => {
-        console.log('feedsAddresses::::::', state.feedsAddresses);
         requestData(state.feedsAddresses);
       })
       .catch((err) => {

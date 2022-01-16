@@ -37,7 +37,7 @@ const createFeedsList = (value) => {
   return list;
 };
 
-const createPostsList = (value) => {
+const createPostsList = (value, i18Instance) => {
   const list = document.createElement('ul');
   value.forEach((post) => {
     const postElement = document.createElement('li');
@@ -54,8 +54,8 @@ const createPostsList = (value) => {
       'border-end-0',
     );
     postElement.append(referenceElem);
-    // const moreButton = createButton(i18Instance);
-    // postElement.append(moreButton);
+    const moreButton = createButton(i18Instance);
+    postElement.append(moreButton);
     list.append(postElement);
   });
 
@@ -71,7 +71,7 @@ const render = (container, watchedState, i18Instance, property) => {
   cardHeader.append(headerElement);
 
   const listMapping = {
-    posts: (posts) => createPostsList(posts),
+    posts: (posts) => createPostsList(posts, i18Instance),
     feeds: (feeds) => createFeedsList(feeds),
   };
 
@@ -82,10 +82,13 @@ const render = (container, watchedState, i18Instance, property) => {
 };
 
 export default (state, i18Instance) => {
+  console.log('init view function call')
   const input = document.querySelector('input');
+  input.focus();
   const formErrorContainer = document.querySelector('.invalid-feedback');
 
   const watchedState = onChange(state, (path, value) => {
+    console.log('watched state function call')
     input.classList.remove('is-invalid');
     if (path === 'errors.formError' && value.length) {
       formErrorContainer.textContent = i18Instance.t(value) || '';
@@ -100,6 +103,8 @@ export default (state, i18Instance) => {
       const container = document.querySelector(`.${prop}`);
       if (isValid) {
         render(container, watchedState, i18Instance, prop);
+        input.value = '';
+        input.focus();
       }
     });
   });
