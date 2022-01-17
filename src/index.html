@@ -21,15 +21,18 @@
         <form>
           <div class="row">
             <div class="col">
-              <input class="form-control form-control-lg" name="rssInput" autocomplete="off" required type="text"
+              <div class="form-floating">
+              <input class="form-control" name="rssInput" id="rssInput" autocomplete="off" required type="text"
                      autofocus
-                     placeholder="Enter RSS link here"
+                     placeholder="RSS link"
                      aria-label="rss-link">
-              <div class="invalid-feedback"></div>
+                <label for="rssInput">RSS link</label>
+              </div>
             </div>
             <div class="col-auto">
-              <button type="submit" aria-label="add" class="btn btn-lg btn-primary px-sm-5">Добавить</button>
+              <button type="submit" aria-label="add" class="btn btn-lg btn-primary px-sm-5 h-100">Добавить</button>
             </div>
+            <div class="invalid-feedback"></div>
           </div>
         </form>
         <p class="mt-2 mb-0 text-muted">Пример: https://ru.hexlet.io/lessons.rss</p>
@@ -45,11 +48,11 @@
   </section>
 </main>
 
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="rssDetailsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <h5 class="modal-title" id="rssDetailsModalLabel">Modal title</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">

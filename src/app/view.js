@@ -5,7 +5,7 @@ const createButton = (postId, i18nInstance) => {
   button.setAttribute('type', 'button');
   button.setAttribute('name', 'detailsButton');
   button.setAttribute('data-bs-toggle', 'modal');
-  button.setAttribute('data-bs-target', '#exampleModal');
+  button.setAttribute('data-bs-target', '#rssDetailsModal');
   button.setAttribute('data-postId', postId);
   button.classList.add('btn', 'btn-outline-primary', 'ms-1');
   button.textContent = i18nInstance.t('buttons.moreButton');
@@ -15,12 +15,13 @@ const createButton = (postId, i18nInstance) => {
 const createCard = () => {
   const card = document.createElement('div');
   card.classList.add('card', 'border-0');
-  const cardHeader = document.createElement('div');
-  cardHeader.classList.add('card-header');
+  const cardTitle = document.createElement('h5');
+  cardTitle.classList.add('card-title');
   const cardBody = document.createElement('div');
-  cardBody.classList.add('card-body');
-  card.append(cardHeader, cardBody);
-  return { card, cardHeader, cardBody };
+  cardBody.classList.add('card-body', 'm-0');
+  cardBody.append(cardTitle);
+  card.append(cardBody);
+  return { card, cardTitle, cardBody };
 };
 
 const createFeedsList = (value) => {
@@ -41,12 +42,16 @@ const createFeedsList = (value) => {
   return list;
 };
 
-const createPostsList = (posts, i18Instance) => {
+const isCheckedPost = (post, postIds) => {
+  return postIds.includes(post.id);
+}
+
+const createPostsList = (posts, checkedPostsIds, i18Instance) => {
   const list = document.createElement('ul');
   posts.forEach((post) => {
     const postElement = document.createElement('li');
     const referenceElem = document.createElement('a');
-    referenceElem.classList.add('fw-bold');
+    referenceElem.classList.add(isCheckedPost(post, checkedPostsIds) ? 'fw-normal' : 'fw-bold');
     referenceElem.setAttribute('href', post.link);
     referenceElem.textContent = post.title;
     postElement.classList.add(
@@ -68,15 +73,15 @@ const createPostsList = (posts, i18Instance) => {
 };
 
 const render = (container, watchedState, i18Instance, property) => {
+  console.log('render')
   container.innerHTML = '';
-  const { card, cardHeader, cardBody } = createCard();
-  const headerElement = document.createElement('h2');
-  headerElement.classList.add('h3');
-  headerElement.textContent = i18Instance.t(`contentHeader.${property}`);
-  cardHeader.append(headerElement);
+  const { card, cardTitle, cardBody } = createCard();
+  cardTitle.textContent = i18Instance.t(`contentHeader.${property}`);
+
+  const { checkedPostsIds } = watchedState;
 
   const listMapping = {
-    posts: (posts) => createPostsList(posts, i18Instance),
+    posts: (posts) => createPostsList(posts, checkedPostsIds, i18Instance),
     feeds: (feeds) => createFeedsList(feeds),
   };
 

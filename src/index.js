@@ -7,6 +7,7 @@ import initView from './app/view';
 import feedDoublesValidator from './validators/feedDoublesValidator';
 import formValidator from './validators/rssUrlValidator';
 import parser from './app/parser';
+import 'bootstrap';
 
 const app = () => {
   const form = document.querySelector('form');
@@ -39,6 +40,7 @@ const app = () => {
       feeds: [],
       posts: [],
     },
+    checkedPostsIds: [],
     errors: {
       formError: '',
       requestErrors: [],
@@ -100,9 +102,7 @@ const app = () => {
 
 
   form.addEventListener('submit', (event) => {
-    console.log(event.target)
     event.preventDefault();
-    console.log(event)
     const formData = new FormData(event.target);
     const data = formData.get('rssInput');
     console.log(data)
@@ -122,6 +122,14 @@ const app = () => {
         watchedState.errors.formError = error;
       });
   });
+
+  const modal = document.querySelector('#rssDetailsModal');
+  modal.addEventListener('show.bs.modal', (e) => {
+    const button = e.relatedTarget;
+    const { postid } = button.dataset;
+    watchedState.checkedPostsIds.push(postid);
+    console.log(state);
+  })
 };
 
 app();
