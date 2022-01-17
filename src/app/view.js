@@ -1,8 +1,12 @@
 import onChange from 'on-change';
 
-const createButton = (i18nInstance) => {
+const createButton = (postId, i18nInstance) => {
   const button = document.createElement('button');
   button.setAttribute('type', 'button');
+  button.setAttribute('name', 'detailsButton');
+  button.setAttribute('data-bs-toggle', 'modal');
+  button.setAttribute('data-bs-target', '#exampleModal');
+  button.setAttribute('data-postId', postId);
   button.classList.add('btn', 'btn-outline-primary', 'ms-1');
   button.textContent = i18nInstance.t('buttons.moreButton');
   return button;
@@ -37,24 +41,25 @@ const createFeedsList = (value) => {
   return list;
 };
 
-const createPostsList = (value, i18Instance) => {
+const createPostsList = (posts, i18Instance) => {
   const list = document.createElement('ul');
-  value.forEach((post) => {
+  posts.forEach((post) => {
     const postElement = document.createElement('li');
     const referenceElem = document.createElement('a');
+    referenceElem.classList.add('fw-bold');
     referenceElem.setAttribute('href', post.link);
     referenceElem.textContent = post.title;
     postElement.classList.add(
       'list-group-item',
       'd-flex',
-      'align-self-center',
       'justify-content-between',
-      'align-items-start',
+      'align-items-center',
       'border-0',
       'border-end-0',
+      'pr-3',
     );
     postElement.append(referenceElem);
-    const moreButton = createButton(i18Instance);
+    const moreButton = createButton(post.id, i18Instance);
     postElement.append(moreButton);
     list.append(postElement);
   });
@@ -82,13 +87,11 @@ const render = (container, watchedState, i18Instance, property) => {
 };
 
 export default (state, i18Instance) => {
-  console.log('init view function call')
   const input = document.querySelector('input');
-  input.focus();
+  // input.focus();
   const formErrorContainer = document.querySelector('.invalid-feedback');
 
   const watchedState = onChange(state, (path, value) => {
-    console.log('watched state function call')
     input.classList.remove('is-invalid');
     if (path === 'errors.formError' && value.length) {
       formErrorContainer.textContent = i18Instance.t(value) || '';

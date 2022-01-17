@@ -9,7 +9,7 @@ import formValidator from './validators/rssUrlValidator';
 import parser from './app/parser';
 
 const app = () => {
-  const submitButton = document.querySelector('form');
+  const form = document.querySelector('form');
 
   const i18nInstance = i18next.createInstance();
 
@@ -90,19 +90,22 @@ const app = () => {
       })
   };
 
-  const requestDelay = 5000;
+  // const requestDelay = 5000;
+  //
+  // let timerId = setTimeout(function request() {
+  //   requestData(state.feedsAddresses);
+  //   timerId = null;
+  //   timerId = setTimeout(request, requestDelay);
+  // }, requestDelay);
 
-  let timerId = setTimeout(function request() {
-    requestData(state.feedsAddresses);
-    timerId = null;
-    timerId = setTimeout(request, requestDelay);
-  }, requestDelay);
 
-
-  submitButton.addEventListener('submit', (event) => {
+  form.addEventListener('submit', (event) => {
+    console.log(event.target)
     event.preventDefault();
+    console.log(event)
     const formData = new FormData(event.target);
     const data = formData.get('rssInput');
+    console.log(data)
     Promise.all([
       formValidator().validate({ name: data }),
       feedDoublesValidator(state.feedsAddresses).validate(data),

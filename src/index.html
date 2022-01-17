@@ -1,40 +1,67 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>RSS Reader</title>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>RSS Reader</title>
 </head>
 <body>
-<section class="input-section">
-    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="5000"
-         style="position: absolute; top: 0; right: 0;">
-        <div class="toast-body"></div>
-    </div>
-    <h1>RSS Reader</h1>
-    <form class="container">
-        <div class="row">
-            <div class="col-8">
-                <label for="inputText" class="sr-only">RSS link</label>
-                <input name="rssInput" type="text" class="form-control form-control-lg" id="inputText"
-                       placeholder="RSS link">
-                <div class="invalid-feedback"></div>
-            </div>
-            <div class="col-4">
-                <input type="submit" value="Добавить" class="btn btn-lg btn-primary px-sm-5">
-            </div>
-        </div>
-    </form>
-</section>
 
-<section class="container-fluid container-xxl p-5">
-    <div class="row">
-        <div class="col-md-10 col-lg-8 order-1 mx-auto posts"></div>
-        <div class="col-md-10 col-lg-4 mx-auto order-0 order-lg-1 feeds"></div>
+<div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="5000"
+     style="position: absolute; top: 0; right: 0;">
+  <div class="toast-body"></div>
+</div>
+<main class="flex-grow-1">
+  <section class="container-fluid p-2 mt-3">
+    <div class="row justify-content-center">
+      <div class="col-md-10 col-lg-10 mx-auto mb-5">
+        <h1 class="display-3 mb-3 text-dark">RSS Reader</h1>
+        <form>
+          <div class="row">
+            <div class="col">
+              <input class="form-control form-control-lg" name="rssInput" autocomplete="off" required type="text"
+                     autofocus
+                     placeholder="Enter RSS link here"
+                     aria-label="rss-link">
+              <div class="invalid-feedback"></div>
+            </div>
+            <div class="col-auto">
+              <button type="submit" aria-label="add" class="btn btn-lg btn-primary px-sm-5">Добавить</button>
+            </div>
+          </div>
+        </form>
+        <p class="mt-2 mb-0 text-muted">Пример: https://ru.hexlet.io/lessons.rss</p>
+      </div>
     </div>
-</section>
+  </section>
+
+  <section class="container-fluid p-2 mt-3">
+    <div class="row justify-content-center">
+      <div class="col-md-10 col-lg-7 order-1  posts"></div>
+      <div class="col-md-10 col-lg-3  order-0 order-lg-1 feeds"></div>
+    </div>
+  </section>
+</main>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!--<footer class="footer border-top py-3 mt-5 bg-light"><div class="container-xl"><div class="text-center">created by <a href="https://ru.hexlet.io/professions/frontend/projects/11" target="_blank">nikochetov</a></div></div></footer>-->
 
