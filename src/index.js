@@ -41,6 +41,7 @@ const app = () => {
       posts: [],
     },
     checkedPostsIds: [],
+    selectedPost: null,
     errors: {
       formError: '',
       requestErrors: [],
@@ -123,11 +124,15 @@ const app = () => {
       });
   });
 
+  const getPost = (postId) => state.feedsData.posts.find((post) => post.id === postId);
+
   const modal = document.querySelector('#rssDetailsModal');
   modal.addEventListener('show.bs.modal', (e) => {
     const button = e.relatedTarget;
     const { postid } = button.dataset;
+    const selectedPost = getPost(postid);
     watchedState.checkedPostsIds.push(postid);
+    watchedState.selectedPost = selectedPost;
     console.log(state);
   })
 };

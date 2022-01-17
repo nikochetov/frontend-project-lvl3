@@ -42,9 +42,7 @@ const createFeedsList = (value) => {
   return list;
 };
 
-const isCheckedPost = (post, postIds) => {
-  return postIds.includes(post.id);
-}
+const isCheckedPost = (post, postIds) => postIds.includes(post.id);
 
 const createPostsList = (posts, checkedPostsIds, i18Instance) => {
   const list = document.createElement('ul');
@@ -73,7 +71,6 @@ const createPostsList = (posts, checkedPostsIds, i18Instance) => {
 };
 
 const render = (container, watchedState, i18Instance, property) => {
-  console.log('render')
   container.innerHTML = '';
   const { card, cardTitle, cardBody } = createCard();
   cardTitle.textContent = i18Instance.t(`contentHeader.${property}`);
@@ -93,7 +90,6 @@ const render = (container, watchedState, i18Instance, property) => {
 
 export default (state, i18Instance) => {
   const input = document.querySelector('input');
-  // input.focus();
   const formErrorContainer = document.querySelector('.invalid-feedback');
 
   const watchedState = onChange(state, (path, value) => {
@@ -101,6 +97,13 @@ export default (state, i18Instance) => {
     if (path === 'errors.formError' && value.length) {
       formErrorContainer.textContent = i18Instance.t(value) || '';
       input.classList.add('is-invalid');
+    }
+
+    if (path === 'selectedPost' && value) {
+      const modalTitle = document.querySelector('.modal-title');
+      const modalBody = document.querySelector('.modal-body');
+      modalTitle.textContent = value.title;
+      modalBody.textContent = value.description;
     }
 
     const properties = Object.keys(watchedState.feedsData);
