@@ -102,6 +102,8 @@ export default (state, i18Instance) => {
     if (path === 'selectedPost' && value) {
       const modalTitle = document.querySelector('.modal-title');
       const modalBody = document.querySelector('.modal-body');
+      const readMoreButton = document.querySelector('#readMoreButton');
+      readMoreButton.setAttribute('href', value.link);
       modalTitle.textContent = value.title;
       modalBody.textContent = value.description;
     }
