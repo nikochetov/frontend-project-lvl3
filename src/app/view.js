@@ -42,7 +42,7 @@ const createFeedsList = (value) => {
   return list;
 };
 
-const isCheckedPost = (post, postIds) => postIds.includes(post.id);
+const isCheckedPost = (post, postIds) => postIds.includes(post.guid);
 
 const createPostsList = (posts, checkedPostsIds, i18Instance) => {
   const list = document.createElement('ul');
@@ -62,7 +62,7 @@ const createPostsList = (posts, checkedPostsIds, i18Instance) => {
       'pr-3',
     );
     postElement.append(referenceElem);
-    const moreButton = createButton(post.id, i18Instance);
+    const moreButton = createButton(post.guid, i18Instance);
     postElement.append(moreButton);
     list.append(postElement);
   });
@@ -114,7 +114,6 @@ export default (state, i18Instance) => {
       if (isValid) {
         render(container, watchedState, i18Instance, prop);
         input.value = '';
-        input.focus();
       }
     });
   });

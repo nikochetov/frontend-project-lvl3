@@ -86,6 +86,7 @@ const app = () => {
       .then((data) => {
         clearData();
         data.forEach((dataItem) => {
+          console.log(dataItem);
           if (!dataItem.status?.error) {
             setDataToState(dataItem);
           }
@@ -93,13 +94,13 @@ const app = () => {
       })
   };
 
-  // const requestDelay = 5000;
-  //
-  // let timerId = setTimeout(function request() {
-  //   requestData(state.feedsAddresses);
-  //   timerId = null;
-  //   timerId = setTimeout(request, requestDelay);
-  // }, requestDelay);
+  const requestDelay = 5000;
+
+  let timerId = setTimeout(function request() {
+    requestData(state.feedsAddresses);
+    timerId = null;
+    timerId = setTimeout(request, requestDelay);
+  }, requestDelay);
 
 
   form.addEventListener('submit', (event) => {
@@ -124,7 +125,7 @@ const app = () => {
       });
   });
 
-  const getPost = (postId) => state.feedsData.posts.find((post) => post.id === postId);
+  const getPost = (postId) => state.feedsData.posts.find((post) => post.guid === postId);
 
   const modal = document.querySelector('#rssDetailsModal');
   modal.addEventListener('show.bs.modal', (e) => {
@@ -133,7 +134,6 @@ const app = () => {
     const selectedPost = getPost(postid);
     watchedState.checkedPostsIds.push(postid);
     watchedState.selectedPost = selectedPost;
-    console.log(state);
   })
 };
 
