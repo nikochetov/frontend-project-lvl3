@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 const parseXml = (xml) => {
   const parser = new DOMParser();
   return parser.parseFromString(xml, 'application/xml');
@@ -17,9 +15,8 @@ const parseXmlToObj = (elems) => {
 };
 
 const setIds = (parsedData) => {
-  const feedId = _.uniqueId();
-  const itemsWithId = parsedData.items.map((item) => ({ ...item, feedId, id: _.uniqueId() }));
-  return ({ ...parsedData, id: feedId, items: itemsWithId });
+  const itemsWithId = parsedData.items.map((item) => ({ ...item }));
+  return ({ ...parsedData, items: itemsWithId });
 };
 
 const getChannel = (html) => html.querySelector('channel');
