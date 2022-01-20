@@ -1,12 +1,18 @@
 export default {
   translation: {
-    formErrors: {
-      exist_feed: 'Фид уже существует',
-      required_field: 'Обязательное поле',
-      invalid_url: 'Невалидный URL',
+    errors: {
+      formErrors: {
+        exist_feed: 'RSS уже существует',
+        rss_not_exist: 'Ресурс не содержит валидный RSS',
+        required_field: 'Не должно быть пустым',
+        invalid_url: 'Ссылка должна быть валидным URL',
+      },
+      connectionErrors: {
+        request_errors: 'Ошибка сети',
+      },
     },
-    connectionErrors: {
-      request_errors: 'Ошибка соединения',
+    rss_state_messages: {
+      rss_success: 'RSS успешно загружен',
     },
     contentHeader: {
       feeds: 'Фиды',

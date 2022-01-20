@@ -1,12 +1,18 @@
 export default {
   translation: {
-    formErrors: {
-      exist_feed: 'Feed is already exist',
-      required_field: 'Required field',
-      invalid_url: 'Invalid URL',
+    errors: {
+      formErrors: {
+        exist_feed: 'RSS already exist',
+        rss_not_exist: 'The resource does not contain valid RSS',
+        required_field: 'Required field',
+        invalid_url: 'Link must be a valid URL',
+      },
+      connectionErrors: {
+        request_errors: 'Connection error',
+      },
     },
-    connectionErrors: {
-      request_errors: 'Connection error',
+    rss_state_messages: {
+      rss_success: 'RSS loaded successfully',
     },
     contentHeader: {
       feeds: 'Feeds',
