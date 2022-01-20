@@ -24,12 +24,12 @@ const app = () => {
 
   setLocale({
     mixed: {
-      default: 'formErrors.required_field',
-      required: 'formErrors.required_field',
-      notOneOf: 'formErrors.exist_feed',
+      default: 'errors.formErrors.required_field',
+      required: 'errors.formErrors.required_field',
+      notOneOf: 'errors.formErrors.exist_feed',
     },
     string: {
-      url: 'formErrors.invalid_url',
+      url: 'errors.formErrors.invalid_url',
     },
   });
 
@@ -121,6 +121,7 @@ const app = () => {
       })
       .catch((err) => {
         const [error] = err.errors;
+        console.log(error)
         watchedState.errors.formError = error;
       });
   });
