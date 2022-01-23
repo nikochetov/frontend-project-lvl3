@@ -3,7 +3,7 @@ export default {
     errors: {
       formErrors: {
         exist_feed: 'RSS already exist',
-        rss_not_exist: 'The resource does not contain valid RSS',
+        not_contain_rss: 'The resource does not contain valid RSS',
         required_field: 'Required field',
         invalid_url: 'Link must be a valid URL',
       },

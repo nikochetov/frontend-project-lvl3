@@ -90,13 +90,14 @@ const render = (container, watchedState, i18Instance, property) => {
 
 export default (state, i18Instance) => {
   const input = document.querySelector('input');
-  const formErrorContainer = document.querySelector('.invalid-feedback');
+  const formErrorContainer = document.querySelector('.feedback');
 
   const watchedState = onChange(state, (path, value) => {
     input.classList.remove('is-invalid');
     if (path === 'errors.formError' && value.length) {
       formErrorContainer.textContent = i18Instance.t(value) || '';
       input.classList.add('is-invalid');
+      formErrorContainer.classList.add('text-danger');
     }
 
     if (path === 'selectedPost' && value) {
@@ -115,7 +116,6 @@ export default (state, i18Instance) => {
       const container = document.querySelector(`.${prop}`);
       if (isValid) {
         render(container, watchedState, i18Instance, prop);
-        input.value = '';
       }
     });
   });
