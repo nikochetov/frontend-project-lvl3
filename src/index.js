@@ -4,9 +4,8 @@ import i18next from 'i18next';
 import { setLocale } from 'yup';
 import resources from './locales';
 import initView from './app/view';
-import feedDoublesValidator from './validators/feedDoublesValidator';
-import formValidator from './validators/rssUrlValidator';
-import parser from './app/parser';
+import { feedDoublesValidator, formValidator, containRssValidator } from './validators';
+import parseRssXml from './app/parser';
 import 'bootstrap';
 
 const app = () => {
@@ -56,7 +55,7 @@ const app = () => {
   const setDataToState = (data) => {
     const feed = Object.entries(data).reduce((acc, [key, value]) => (key.includes('items') ? acc : {
       ...acc,
-      [key]: value
+      [key]: value,
     }), {});
     const posts = data.items;
     watchedState.feedsData.posts = [...posts, ...state.feedsData.posts];
@@ -66,32 +65,25 @@ const app = () => {
   const clearData = () => {
     watchedState.feedsData.posts = [];
     watchedState.feedsData.feeds = [];
-  }
+  };
 
-  const setErrorToState = (error) => {
-    watchedState.errors.requestErrors.push(error);
-  }
-
-  const clearRequestErrors = () => {
-    watchedState.errors.requestErrors = [];
-  }
+  // const setErrorToState = (error) => {
+  //   watchedState.errors.requestErrors.push(error);
+  // }
+  //
+  // const clearRequestErrors = () => {
+  //   watchedState.errors.requestErrors = [];
+  // }
 
   const requestData = (addresses) => {
     Promise.all(addresses.map((address) => axios.get(buildAddressWithProxy(address))))
-      .then(axios.spread((...data) => {
-        return data.map((elem) => {
-          return parser(elem.data.contents);
-        });
-      }))
-      .then((data) => {
+      .then(axios.spread((...data) => data.map((elem) => parseRssXml(elem.data.contents))))
+      .then((rssFeedData) => {
         clearData();
-        data.forEach((dataItem) => {
-          console.log(dataItem);
-          if (!dataItem.status?.error) {
-            setDataToState(dataItem);
-          }
-        })
-      })
+        rssFeedData.forEach((dataItem) => {
+          setDataToState(dataItem);
+        });
+      });
   };
 
   const requestDelay = 5000;
@@ -102,18 +94,22 @@ const app = () => {
     timerId = setTimeout(request, requestDelay);
   }, requestDelay);
 
-
   form.addEventListener('submit', (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
     const data = formData.get('rssInput');
-    console.log(data)
     Promise.all([
-      formValidator().validate({ name: data }),
+      formValidator().validate(data),
       feedDoublesValidator(state.feedsAddresses).validate(data),
+      axios.get(buildAddressWithProxy(data))
+        .then((response) => containRssValidator().validate(response)),
     ])
+      // .then((data) => {
+      //   console.log(data);
+      //   return data;
+      // })
       .then(([formValue]) => {
-        watchedState.feedsAddresses.push(formValue.name);
+        watchedState.feedsAddresses.push(formValue);
         watchedState.status = 'valid';
       })
       .then(() => {
@@ -121,7 +117,6 @@ const app = () => {
       })
       .catch((err) => {
         const [error] = err.errors;
-        console.log(error)
         watchedState.errors.formError = error;
       });
   });
@@ -135,7 +130,7 @@ const app = () => {
     const selectedPost = getPost(postid);
     watchedState.checkedPostsIds.push(postid);
     watchedState.selectedPost = selectedPost;
-  })
+  });
 };
 
 app();
