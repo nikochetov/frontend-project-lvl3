@@ -43,7 +43,7 @@ const app = () => {
     selectedPost: null,
     errors: {
       formError: '',
-      requestErrors: [],
+      requestError: '',
     },
     language: defaultLanguage,
   };
@@ -74,48 +74,54 @@ const app = () => {
   // const clearRequestErrors = () => {
   //   watchedState.errors.requestErrors = [];
   // }
+  const requestDelay = 5000;
 
   const requestData = (addresses) => {
-    Promise.all(addresses.map((address) => axios.get(buildAddressWithProxy(address))))
+    Promise.all(addresses.map((address) => axios.get('https://cors-anywhere.herokuapp.com/http://lorem-rss.herokuapp.com/feed')))
       .then(axios.spread((...data) => data.map((elem) => parseRssXml(elem.data.contents))))
       .then((rssFeedData) => {
         clearData();
         rssFeedData.forEach((dataItem) => {
           setDataToState(dataItem);
         });
+      })
+      .then(() => setTimeout(requestData, requestDelay, addresses))
+      .catch((err) => {
+        console.log(err.message);
+        const { message } = err;
+        watchedState.errors.requestError = message;
       });
   };
 
-  const requestDelay = 5000;
+  const request = (address) => {
+    axios.get(buildAddressWithProxy(address))
+      .then((response) => containRssValidator().validate(response))
+  };
 
-  let timerId = setTimeout(function request() {
-    requestData(state.feedsAddresses);
-    timerId = null;
-    timerId = setTimeout(request, requestDelay);
-  }, requestDelay);
+  // let timerId = setTimeout(function request() {
+  //   requestData(state.feedsAddresses);
+  //   timerId = null;
+  //   timerId = setTimeout(request, requestDelay);
+  // }, requestDelay);
 
   form.addEventListener('submit', (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
-    const data = formData.get('rssInput');
+    const rssInputValue = formData.get('rssInput').trim();
     Promise.all([
-      formValidator().validate(data),
-      feedDoublesValidator(state.feedsAddresses).validate(data),
-      axios.get(buildAddressWithProxy(data))
-        .then((response) => containRssValidator().validate(response)),
+      formValidator().validate({ rssInputValue }),
+      feedDoublesValidator(state.feedsAddresses).validate(rssInputValue),
     ])
-      // .then((data) => {
-      //   console.log(data);
-      //   return data;
-      // })
-      .then(([formValue]) => {
-        watchedState.feedsAddresses.push(formValue);
+      // .then((data) => request([data]))
+      .then(() => {
+        watchedState.feedsAddresses.push(rssInputValue);
         watchedState.status = 'valid';
       })
       .then(() => {
         requestData(state.feedsAddresses);
       })
       .catch((err) => {
+        console.log(err)
         const [error] = err.errors;
         watchedState.errors.formError = error;
       });
@@ -134,3 +140,5 @@ const app = () => {
 };
 
 app();
+
+export default app;

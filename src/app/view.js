@@ -100,6 +100,13 @@ export default (state, i18Instance) => {
       formErrorContainer.classList.add('text-danger');
     }
 
+    if (path === 'errors.requestError' && value.length) {
+      const toast = document.querySelector('.toast');
+      const toastBody = document.querySelector('.toast-body');
+      toast.classList.add('show');
+      toastBody.textContent = value;
+    }
+
     if (path === 'selectedPost' && value) {
       const modalTitle = document.querySelector('.modal-title');
       const modalBody = document.querySelector('.modal-body');
