@@ -71,7 +71,8 @@ const createPostsList = (posts, checkedPostsIds, i18Instance) => {
 };
 
 const render = (container, watchedState, i18Instance, property) => {
-  container.innerHTML = '';
+  const renderContainer = container;
+  renderContainer.innerHTML = '';
   const { card, cardTitle, cardBody } = createCard();
   cardTitle.textContent = i18Instance.t(`contentHeader.${property}`);
 
@@ -100,10 +101,10 @@ export default (state, i18Instance) => {
       formErrorContainer.classList.add('text-danger');
     }
 
-    if (path === 'errors.requestError' && value.length) {
+    if (path === 'errors.requestError') {
       const toast = document.querySelector('.toast');
       const toastBody = document.querySelector('.toast-body');
-      toast.classList.add('show');
+      toast.classList.add(value.length ? 'show' : 'hide');
       toastBody.textContent = value;
     }
 
