@@ -76,8 +76,11 @@ const app = () => {
   // }
   const requestDelay = 5000;
 
-  const requestData = (addresses) => {
-    Promise.all(addresses.map((address) => axios.get('https://cors-anywhere.herokuapp.com/http://lorem-rss.herokuapp.com/feed')))
+  // Address for catch connection error:
+  // https://cors-anywhere.herokuapp.com/http://lorem-rss.herokuapp.com/feed
+
+  const updateFeeds = (addresses) => {
+    Promise.all(addresses.map((address) => axios.get(buildAddressWithProxy(address))))
       .then(axios.spread((...data) => data.map((elem) => parseRssXml(elem.data.contents))))
       .then((rssFeedData) => {
         clearData();
@@ -85,9 +88,8 @@ const app = () => {
           setDataToState(dataItem);
         });
       })
-      .then(() => setTimeout(requestData, requestDelay, addresses))
+      .then(() => setTimeout(updateFeeds, requestDelay, addresses))
       .catch((err) => {
-        console.log(err.message);
         const { message } = err;
         watchedState.errors.requestError = message;
       });
@@ -96,13 +98,10 @@ const app = () => {
   const request = (address) => {
     axios.get(buildAddressWithProxy(address))
       .then((response) => containRssValidator().validate(response))
+      .then((response) => parseRssXml(response.data.contents))
+      .then((content) => setDataToState(content))
+      .then(() => setTimeout(updateFeeds, requestDelay, state.feedsAddresses));
   };
-
-  // let timerId = setTimeout(function request() {
-  //   requestData(state.feedsAddresses);
-  //   timerId = null;
-  //   timerId = setTimeout(request, requestDelay);
-  // }, requestDelay);
 
   form.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -112,16 +111,15 @@ const app = () => {
       formValidator().validate({ rssInputValue }),
       feedDoublesValidator(state.feedsAddresses).validate(rssInputValue),
     ])
-      // .then((data) => request([data]))
+      .then(() => {
+        request(rssInputValue);
+      })
       .then(() => {
         watchedState.feedsAddresses.push(rssInputValue);
+        watchedState.errors.requestError = '';
         watchedState.status = 'valid';
       })
-      .then(() => {
-        requestData(state.feedsAddresses);
-      })
       .catch((err) => {
-        console.log(err)
         const [error] = err.errors;
         watchedState.errors.formError = error;
       });
