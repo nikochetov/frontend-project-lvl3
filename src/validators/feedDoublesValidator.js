@@ -1,5 +1,3 @@
 import * as yup from 'yup';
 
-export default (data) => {
-  return yup.mixed().notOneOf(data);
-}
+export default (data) => yup.mixed().notOneOf(data);
