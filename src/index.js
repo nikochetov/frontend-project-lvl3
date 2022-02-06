@@ -5,6 +5,7 @@ import { setLocale } from 'yup';
 import resources from './locales';
 import initView from './app/view';
 import { feedDoublesValidator, formValidator, containRssValidator } from './validators';
+import { modalHandler } from './app/handlers';
 import parseRssXml from './app/parser';
 import 'bootstrap';
 
@@ -125,16 +126,8 @@ const app = () => {
       });
   });
 
-  const getPost = (postId) => state.feedsData.posts.find((post) => post.guid === postId);
-
   const modal = document.querySelector('#rssDetailsModal');
-  modal.addEventListener('show.bs.modal', (e) => {
-    const button = e.relatedTarget;
-    const { postid } = button.dataset;
-    const selectedPost = getPost(postid);
-    watchedState.checkedPostsIds.push(postid);
-    watchedState.selectedPost = selectedPost;
-  });
+  modal.addEventListener('show.bs.modal', modalHandler(watchedState));
 };
 
 app();
