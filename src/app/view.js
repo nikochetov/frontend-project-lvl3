@@ -89,6 +89,22 @@ const render = (container, watchedState, i18Instance, property) => {
   cardBody.append(list);
 };
 
+const renderModal = (value) => {
+  const modalTitle = document.querySelector('.modal-title');
+  const modalBody = document.querySelector('.modal-body');
+  const readMoreButton = document.querySelector('#readMoreButton');
+  readMoreButton.setAttribute('href', value.link);
+  modalTitle.textContent = value.title;
+  modalBody.textContent = value.description;
+};
+
+const showRequestErrorToast = (value) => {
+  const toast = document.querySelector('.toast');
+  const toastBody = document.querySelector('.toast-body');
+  toast.classList.add(value.length ? 'show' : 'hide');
+  toastBody.textContent = value;
+};
+
 export default (state, i18Instance) => {
   const input = document.querySelector('input');
   const formErrorContainer = document.querySelector('.feedback');
@@ -102,19 +118,11 @@ export default (state, i18Instance) => {
     }
 
     if (path === 'errors.requestError') {
-      const toast = document.querySelector('.toast');
-      const toastBody = document.querySelector('.toast-body');
-      toast.classList.add(value.length ? 'show' : 'hide');
-      toastBody.textContent = value;
+      showRequestErrorToast(value);
     }
 
     if (path === 'selectedPost' && value) {
-      const modalTitle = document.querySelector('.modal-title');
-      const modalBody = document.querySelector('.modal-body');
-      const readMoreButton = document.querySelector('#readMoreButton');
-      readMoreButton.setAttribute('href', value.link);
-      modalTitle.textContent = value.title;
-      modalBody.textContent = value.description;
+      renderModal(value);
     }
 
     const properties = Object.keys(watchedState.feedsData);
