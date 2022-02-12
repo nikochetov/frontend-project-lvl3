@@ -70,6 +70,22 @@ const createPostsList = (posts, checkedPostsIds, i18Instance) => {
   return list;
 };
 
+const showMessage = (condition, value, i18Instance) => {
+  const conditionMessageContainer = document.querySelector('.feedback');
+  conditionMessageContainer.textContent = i18Instance.t(value) || '';
+
+  const conditionMapping = {
+    fail: () => {
+      conditionMessageContainer.classList.add('text-danger');
+    },
+    success: () => {
+      conditionMessageContainer.classList.add('text-success');
+    },
+  };
+
+  conditionMapping[condition]();
+};
+
 const render = (container, watchedState, i18Instance, property) => {
   const renderContainer = container;
   renderContainer.innerHTML = '';
@@ -107,14 +123,12 @@ const showRequestErrorToast = (value) => {
 
 export default (state, i18Instance) => {
   const input = document.querySelector('input');
-  const formErrorContainer = document.querySelector('.feedback');
 
   const watchedState = onChange(state, (path, value) => {
     input.classList.remove('is-invalid');
     if (path === 'errors.formError' && value.length) {
-      formErrorContainer.textContent = i18Instance.t(value) || '';
       input.classList.add('is-invalid');
-      formErrorContainer.classList.add('text-danger');
+      showMessage('fail', value, i18Instance);
     }
 
     if (path === 'errors.requestError') {
@@ -131,6 +145,8 @@ export default (state, i18Instance) => {
     properties.forEach((prop) => {
       const container = document.querySelector(`.${prop}`);
       if (isValid) {
+        input.classList.add('is-valid');
+        showMessage('success', 'rss_state_messages.rss_success', i18Instance);
         render(container, watchedState, i18Instance, prop);
       }
     });
