@@ -15,7 +15,7 @@ export const modalHandler = (state) => (event) => {
 export const formHandler = (state) => (event) => {
   event.preventDefault();
   const formData = new FormData(event.target);
-  const rssInputValue = formData.get('rssInput').trim();
+  const rssInputValue = formData.get('url').trim();
   Promise.all([
     formValidator().validate({ rssInputValue }),
     feedDoublesValidator(state.feedsAddresses).validate(rssInputValue),
