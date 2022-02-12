@@ -32,6 +32,7 @@ export const formHandler = (state) => (event) => {
     .catch((err) => {
       const currentState = state;
       const [error] = err.errors;
+      currentState.status = 'invalid';
       currentState.errors.formError = error;
     });
 };

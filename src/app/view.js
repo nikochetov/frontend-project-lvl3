@@ -76,9 +76,11 @@ const showMessage = (condition, value, i18Instance) => {
 
   const conditionMapping = {
     fail: () => {
+      conditionMessageContainer.classList.remove('text-success');
       conditionMessageContainer.classList.add('text-danger');
     },
     success: () => {
+      conditionMessageContainer.classList.remove('text-danger');
       conditionMessageContainer.classList.add('text-success');
     },
   };
@@ -125,8 +127,8 @@ export default (state, i18Instance) => {
   const input = document.querySelector('input');
 
   const watchedState = onChange(state, (path, value) => {
-    input.classList.remove('is-invalid');
     if (path === 'errors.formError' && value.length) {
+      input.classList.remove('is-valid');
       input.classList.add('is-invalid');
       showMessage('fail', value, i18Instance);
     }
@@ -145,6 +147,7 @@ export default (state, i18Instance) => {
     properties.forEach((prop) => {
       const container = document.querySelector(`.${prop}`);
       if (isValid) {
+        input.classList.remove('is-invalid');
         input.classList.add('is-valid');
         showMessage('success', 'rss_state_messages.rss_success', i18Instance);
         render(container, watchedState, i18Instance, prop);
