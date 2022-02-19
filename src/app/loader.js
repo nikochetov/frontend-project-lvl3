@@ -30,20 +30,12 @@ const updateFeeds = (state) => {
     });
 };
 
-export default (address, state) => {
-  axios.get(buildAddressWithProxy(address))
-    .then((response) => containRssValidator().validate(response))
-    .then((response) => parseRssXml(response.data.contents))
-    .then((content) => {
-      setDataToState(content, state);
-      const watchedState = state;
-      watchedState.status = 'fulfilled';
-    })
-    .then(() => setTimeout(updateFeeds, requestDelay, state))
-    .catch((err) => {
-      const currentState = state;
-      const [error] = err.errors;
-      currentState.errors.formError = error;
-      currentState.status = 'formError';
-    });
-};
+export default (address, state) => axios.get(buildAddressWithProxy(address))
+  .then((response) => containRssValidator().validate(response))
+  .then((response) => parseRssXml(response.data.contents))
+  .then((content) => {
+    setDataToState(content, state);
+    const watchedState = state;
+    watchedState.status = 'fulfilled';
+  })
+  .then(() => setTimeout(updateFeeds, requestDelay, state));

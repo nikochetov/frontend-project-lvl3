@@ -21,9 +21,7 @@ export const formSubmitHandler = (state) => (event) => {
     formValidator().validate({ rssInputValue }),
     feedDoublesValidator(state.feedsAddresses).validate(rssInputValue),
   ])
-    .then(() => {
-      request(rssInputValue, state);
-    })
+    .then(() => request(rssInputValue, state))
     .then(() => {
       const currentState = state;
       currentState.feedsAddresses.push(rssInputValue);
@@ -38,7 +36,7 @@ export const formSubmitHandler = (state) => (event) => {
 };
 
 export const formChangesHandler = (state) => (event) => {
-  console.log(event.target);
   const currentState = state;
-  currentState.status = 'typing';
+  const { value } = event.target;
+  if (value) currentState.status = 'typing';
 };
