@@ -3,11 +3,12 @@ import i18next from 'i18next';
 import { setLocale } from 'yup';
 import resources from '../locales';
 import initView from './view';
-import { formHandler, modalHandler } from './handlers';
+import { formChangesHandler, formSubmitHandler, modalHandler } from './handlers';
 import 'bootstrap';
 
 export default () => {
   const form = document.querySelector('form');
+  const input = document.querySelector('input');
 
   const i18nInstance = i18next.createInstance();
 
@@ -48,8 +49,10 @@ export default () => {
 
   const watchedState = initView(state, i18nInstance);
 
-  form.addEventListener('submit', formHandler(watchedState));
+  form.addEventListener('submit', formSubmitHandler(watchedState));
 
   const modal = document.querySelector('#rssDetailsModal');
   modal.addEventListener('show.bs.modal', modalHandler(watchedState));
+
+  input.addEventListener('input', formChangesHandler(watchedState));
 };

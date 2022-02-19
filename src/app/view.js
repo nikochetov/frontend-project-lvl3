@@ -88,6 +88,13 @@ const showMessage = (condition, value, i18Instance) => {
   conditionMapping[condition]();
 };
 
+const removeMessage = () => {
+  const conditionMessageContainer = document.querySelector('.feedback');
+  conditionMessageContainer.textContent = '';
+  conditionMessageContainer.classList.remove('text-success');
+  conditionMessageContainer.classList.remove('text-danger');
+};
+
 const render = (container, watchedState, i18Instance, property) => {
   const renderContainer = container;
   renderContainer.innerHTML = '';
@@ -160,6 +167,12 @@ export default (state, i18Instance) => {
 
       case 'openModal':
         renderModal(watchedState.selectedPost);
+        break;
+
+      case 'typing':
+        input.classList.remove('is-valid');
+        input.classList.remove('is-invalid');
+        removeMessage();
         break;
 
       default:

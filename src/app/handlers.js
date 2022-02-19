@@ -13,7 +13,7 @@ export const modalHandler = (state) => (event) => {
   currentState.status = 'openModal';
 };
 
-export const formHandler = (state) => (event) => {
+export const formSubmitHandler = (state) => (event) => {
   event.preventDefault();
   const formData = new FormData(event.target);
   const rssInputValue = formData.get('url').trim();
@@ -29,4 +29,16 @@ export const formHandler = (state) => (event) => {
       currentState.feedsAddresses.push(rssInputValue);
       currentState.errors.requestError = '';
     })
+    .catch((err) => {
+      const currentState = state;
+      const [error] = err.errors;
+      currentState.errors.formError = error;
+      currentState.status = 'formError';
+    });
+};
+
+export const formChangesHandler = (state) => (event) => {
+  console.log(event.target);
+  const currentState = state;
+  currentState.status = 'typing';
 };
