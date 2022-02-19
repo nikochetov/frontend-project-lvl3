@@ -39,5 +39,11 @@ export default (address, state) => {
       const watchedState = state;
       watchedState.status = 'fulfilled';
     })
-    .then(() => setTimeout(updateFeeds, requestDelay, state));
+    .then(() => setTimeout(updateFeeds, requestDelay, state))
+    .catch((err) => {
+      const currentState = state;
+      const [error] = err.errors;
+      currentState.errors.formError = error;
+      currentState.status = 'formError';
+    });
 };
