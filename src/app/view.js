@@ -127,32 +127,71 @@ export default (state, i18Instance) => {
   const input = document.querySelector('input');
 
   const watchedState = onChange(state, (path, value) => {
-    if (path === 'errors.formError' && value.length) {
-      input.classList.remove('is-valid');
-      input.classList.add('is-invalid');
-      showMessage('fail', value, i18Instance);
-    }
+    switch (value) {
+      case 'fulfilled':
+        Object.keys(watchedState.feedsData).forEach((prop) => {
+          const container = document.querySelector(`.${prop}`);
+          input.classList.remove('is-invalid');
+          input.classList.add('is-valid');
+          showMessage('success', 'rss_state_messages.rss_success', i18Instance);
+          render(container, watchedState, i18Instance, prop);
+        });
+        input.value = '';
+        input.focus();
+        break;
 
-    if (path === 'errors.requestError') {
-      showRequestErrorToast(value);
-    }
-
-    if (path === 'selectedPost' && value) {
-      renderModal(value);
-    }
-
-    const properties = Object.keys(watchedState.feedsData);
-    const isValid = watchedState.status === 'valid';
-
-    properties.forEach((prop) => {
-      const container = document.querySelector(`.${prop}`);
-      if (isValid) {
-        input.classList.remove('is-invalid');
-        input.classList.add('is-valid');
-        showMessage('success', 'rss_state_messages.rss_success', i18Instance);
-        render(container, watchedState, i18Instance, prop);
+      case 'refresh': {
+        Object.keys(watchedState.feedsData).forEach((prop) => {
+          const container = document.querySelector(`.${prop}`);
+          render(container, watchedState, i18Instance, prop);
+        });
+        break;
       }
-    });
+
+      case 'requestError':
+        showRequestErrorToast(watchedState.errors.requestError);
+        break;
+
+      case 'formError':
+        input.classList.remove('is-valid');
+        input.classList.add('is-invalid');
+        showMessage('fail', watchedState.errors.formError, i18Instance);
+        break;
+
+      case 'openModal':
+        renderModal(watchedState.selectedPost);
+        break;
+
+      default:
+        throw Error('Unknown property');
+    }
+
+    // if (path === 'errors.formError' && value.length) {
+    //   input.classList.remove('is-valid');
+    //   input.classList.add('is-invalid');
+    //   showMessage('fail', value, i18Instance);
+    // }
+    //
+    // if (path === 'errors.requestError') {
+    //   showRequestErrorToast(value);
+    // }
+
+    // if (path === 'selectedPost' && value) {
+    //   renderModal(value);
+    // }
+
+    // const properties = Object.keys(watchedState.feedsData);
+    // const isValid = watchedState.status === 'valid';
+    //
+    // properties.forEach((prop) => {
+    //   const container = document.querySelector(`.${prop}`);
+    //   if (isValid) {
+    //     input.classList.remove('is-invalid');
+    //     input.classList.add('is-valid');
+    //     showMessage('success', 'rss_state_messages.rss_success', i18Instance);
+    //     render(container, watchedState, i18Instance, prop);
+    //   }
+    // });
   });
 
   return watchedState;

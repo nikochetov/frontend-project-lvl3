@@ -18,12 +18,15 @@ const updateFeeds = (state) => {
       rssFeedData.forEach((dataItem) => {
         setDataToState(dataItem, state);
       });
+      const watchedState = state;
+      watchedState.status = 'refresh';
     })
     .then(() => setTimeout(updateFeeds, requestDelay, state))
     .catch((err) => {
       const { message } = err;
       const watchedState = state;
       watchedState.errors.requestError = message;
+      watchedState.status = 'requestError';
     });
 };
 
@@ -31,6 +34,10 @@ export default (address, state) => {
   axios.get(buildAddressWithProxy(address))
     .then((response) => containRssValidator().validate(response))
     .then((response) => parseRssXml(response.data.contents))
-    .then((content) => setDataToState(content, state))
+    .then((content) => {
+      setDataToState(content, state);
+      const watchedState = state;
+      watchedState.status = 'fulfilled';
+    })
     .then(() => setTimeout(updateFeeds, requestDelay, state));
 };

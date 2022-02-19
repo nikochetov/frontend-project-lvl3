@@ -10,6 +10,7 @@ export const modalHandler = (state) => (event) => {
   const selectedPost = getPost(postid, currentState);
   currentState.checkedPostsIds.push(postid);
   currentState.selectedPost = selectedPost;
+  currentState.status = 'openModal';
 };
 
 export const formHandler = (state) => (event) => {
@@ -27,12 +28,11 @@ export const formHandler = (state) => (event) => {
       const currentState = state;
       currentState.feedsAddresses.push(rssInputValue);
       currentState.errors.requestError = '';
-      currentState.status = 'valid';
     })
     .catch((err) => {
       const currentState = state;
       const [error] = err.errors;
-      currentState.status = 'invalid';
       currentState.errors.formError = error;
+      currentState.status = 'formError';
     });
 };
