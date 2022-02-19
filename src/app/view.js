@@ -163,7 +163,7 @@ export default (state, i18Instance) => {
         break;
 
       default:
-        throw Error('Unknown property');
+        if (path === 'state') throw Error('Unknown property');
     }
 
     // if (path === 'errors.formError' && value.length) {
