@@ -6,6 +6,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
   mode: process.env.NODE_ENV || 'development',
+  entry: './src/index.js',
   output: {
     filename: '[name].[contenthash].js',
     path: path.resolve(__dirname, 'dist'),
@@ -18,6 +19,10 @@ module.exports = {
       {
         test: /\.css$/i,
         use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: 'asset/resource',
       },
     ],
   },
