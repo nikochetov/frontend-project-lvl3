@@ -14,6 +14,7 @@ export const modalHandler = (state) => (event) => {
 };
 
 export const formSubmitHandler = (state) => (event) => {
+  console.log(event)
   event.preventDefault();
   const formData = new FormData(event.target);
   const rssInputValue = formData.get('url').trim();
