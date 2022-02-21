@@ -8,7 +8,7 @@ const isProd = () => process.env.NODE_ENV === 'production';
 module.exports = {
   mode: process.env.NODE_ENV || 'development',
   entry: {
-    main: path.resolve(__dirname, './src/index.js'),
+    main: path.resolve(__dirname, isProd() ? './src/index.js' : './src/app/app.js'),
   },
   output: {
     filename: '[name].[contenthash].js',

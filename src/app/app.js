@@ -7,7 +7,6 @@ import { formChangesHandler, formSubmitHandler, modalHandler } from './handlers'
 import 'bootstrap';
 
 export default () => {
-  console.log('app started')
   const form = document.querySelector('form');
   const input = document.querySelector('input');
 
