@@ -4,4 +4,4 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/26d0b7fc3fb7b20267df/maintainability)](https://codeclimate.com/github/nikochetov/frontend-project-lvl3/maintainability)
 
 ##### Project URL:
-https://frontend-project-lvl3-seven-virid.vercel.app/
+https://awesome-rss-reader.vercel.app/
