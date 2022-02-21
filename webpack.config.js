@@ -7,7 +7,9 @@ const isProd = () => process.env.NODE_ENV === 'production';
 
 module.exports = {
   mode: process.env.NODE_ENV || 'development',
-  entry: './src/index.js',
+  entry: {
+    main: path.resolve(__dirname, './src/index.js'),
+  },
   output: {
     filename: '[name].[contenthash].js',
     path: path.resolve(__dirname, 'dist'),
@@ -21,6 +23,11 @@ module.exports = {
       {
         test: /\.css$/i,
         use: [isProd() ? MiniCssWebpackPlugin.loader : 'style-loader', 'css-loader'],
+      },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: 'babel-loader',
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
