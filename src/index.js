@@ -1,4 +1,4 @@
 import app from './app/app.js';
 
-app();
-// export default app;
+// app();
+export default app;

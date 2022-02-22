@@ -7,7 +7,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// const isProd = () => process.env.NODE_ENV === 'production';
+const isProd = () => process.env.NODE_ENV === 'production';
 
 const webpackConfig = {
   mode: process.env.NODE_ENV || 'development',
@@ -26,7 +26,7 @@ const webpackConfig = {
     rules: [
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader'],
+        use: [isProd() ? MiniCssWebpackPlugin.loader : 'style-loader', 'css-loader'],
       },
       {
         test: /\.js$/,
