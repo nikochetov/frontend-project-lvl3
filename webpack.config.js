@@ -5,7 +5,7 @@ import MiniCssWebpackPlugin from 'mini-css-extract-plugin';
 
 const isProd = () => process.env.NODE_ENV === 'production';
 
-module.exports = {
+const webpackConfig = {
   mode: process.env.NODE_ENV || 'development',
   entry: {
     main: path.resolve(__dirname, 'src', 'index.js'),
@@ -44,3 +44,5 @@ module.exports = {
     new CleanWebpackPlugin(),
   ],
 };
+
+export default webpackConfig;
