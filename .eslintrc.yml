@@ -7,3 +7,6 @@ extends:
 
 rules:
   import/extensions: 0
+  no-underscore-dangle: off
+
+parser: babel-eslint
