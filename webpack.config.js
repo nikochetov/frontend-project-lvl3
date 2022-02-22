@@ -11,9 +11,9 @@ const isProd = () => process.env.NODE_ENV === 'production';
 
 const webpackConfig = {
   mode: process.env.NODE_ENV || 'development',
-  // entry: {
-  //   main: path.resolve(__dirname, 'src', 'index.js'),
-  // },
+  entry: {
+    main: path.resolve(__dirname, 'src', 'index.js'),
+  },
   output: {
     filename: '[name].[contenthash].js',
     path: path.resolve(__dirname, 'dist'),
