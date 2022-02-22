@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "RSS reader",
   "main": "src/index.js",
+  "type": "module",
   "scripts": {
     "build": "webpack --mode production",
     "start": "webpack serve --open"

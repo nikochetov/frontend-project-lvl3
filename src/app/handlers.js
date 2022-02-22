@@ -1,5 +1,5 @@
-import { feedDoublesValidator, formValidator } from '../validators';
-import request from './loader';
+import { feedDoublesValidator, formValidator } from '../validators/index.js';
+import request from './loader.js';
 
 const getPost = (postId, state) => state.feedsData.posts.find((post) => post.guid === postId);
 

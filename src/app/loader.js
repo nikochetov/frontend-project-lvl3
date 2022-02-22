@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { containRssValidator } from '../validators';
-import parseRssXml from './parser';
-import { setDataToState, clearData } from './utils';
+import { containRssValidator } from '../validators/index.js';
+import parseRssXml from './parser.js';
+import { setDataToState, clearData } from './utils.js';
 
 // Address for catch connection error:
 // https://cors-anywhere.herokuapp.com/http://lorem-rss.herokuapp.com/feed

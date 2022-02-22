@@ -1,9 +1,9 @@
 import '../styles/style.css';
 import i18next from 'i18next';
 import { setLocale } from 'yup';
-import resources from '../locales';
-import initView from './view';
-import { formChangesHandler, formSubmitHandler, modalHandler } from './handlers';
+import resources from '../locales/index.js';
+import initView from './view.js';
+import { formChangesHandler, formSubmitHandler, modalHandler } from './handlers.js';
 import 'bootstrap';
 
 export default () => {
