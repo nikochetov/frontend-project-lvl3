@@ -8,6 +8,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const isProd = () => process.env.NODE_ENV === 'production';
+console.log(process.env.NODE_ENV);
 
 export default {
   mode: process.env.NODE_ENV || 'development',
@@ -18,6 +19,7 @@ export default {
     filename: '[name].[contenthash].js',
     path: path.resolve(__dirname, 'dist'),
     assetModuleFilename: 'assets/[hash][ext][query]',
+    clean: true,
   },
   devServer: {
     port: 4300,
@@ -40,7 +42,7 @@ export default {
       favicon: './src/assets/favicon.ico',
     }),
     new MiniCssExtractPlugin({
-      filename: 'css/[name].css',
+      filename: 'css/[name].[contenthash].css',
       chunkFilename: '[id].css',
     }), new CleanWebpackPlugin(),
   ],
