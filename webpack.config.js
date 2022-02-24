@@ -9,7 +9,7 @@ const __dirname = path.dirname(__filename);
 
 const isProd = () => process.env.NODE_ENV === 'production';
 
-const webpackConfig = {
+export default {
   mode: process.env.NODE_ENV || 'development',
   entry: {
     main: path.resolve(__dirname, 'src', 'index.js'),
@@ -30,7 +30,6 @@ const webpackConfig = {
       },
       {
         test: /\.js$/,
-        exclude: /node_modules/,
         use: 'babel-loader',
       },
       {
@@ -48,5 +47,3 @@ const webpackConfig = {
     new CleanWebpackPlugin(),
   ],
 };
-
-export default webpackConfig;
