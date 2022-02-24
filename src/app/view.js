@@ -178,33 +178,6 @@ export default (state, i18Instance) => {
       default:
         if (path === 'state') throw Error('Unknown property');
     }
-
-    // if (path === 'errors.formError' && value.length) {
-    //   input.classList.remove('is-valid');
-    //   input.classList.add('is-invalid');
-    //   showMessage('fail', value, i18Instance);
-    // }
-    //
-    // if (path === 'errors.requestError') {
-    //   showRequestErrorToast(value);
-    // }
-
-    // if (path === 'selectedPost' && value) {
-    //   renderModal(value);
-    // }
-
-    // const properties = Object.keys(watchedState.feedsData);
-    // const isValid = watchedState.status === 'valid';
-    //
-    // properties.forEach((prop) => {
-    //   const container = document.querySelector(`.${prop}`);
-    //   if (isValid) {
-    //     input.classList.remove('is-invalid');
-    //     input.classList.add('is-valid');
-    //     showMessage('success', 'rss_state_messages.rss_success', i18Instance);
-    //     render(container, watchedState, i18Instance, prop);
-    //   }
-    // });
   });
 
   return watchedState;
