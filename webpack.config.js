@@ -7,7 +7,7 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// const isProd = () => process.env.NODE_ENV === 'production';
+const isProd = () => process.env.NODE_ENV === 'production';
 
 export default {
   mode: process.env.NODE_ENV || 'development',
@@ -26,7 +26,7 @@ export default {
     rules: [
       {
         test: /\.css$/,
-        use: ['css-loader', 'style-loader'],
+        use: [isProd() ? MiniCssExtractPlugin.loader : 'style-loader', 'css-loader'],
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
