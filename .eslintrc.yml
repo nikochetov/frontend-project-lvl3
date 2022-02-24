@@ -8,3 +8,7 @@ extends:
 rules:
   import/extensions: 0
   no-underscore-dangle: off
+
+parserOptions:
+  ecmaVersion: 2020
+  sourceType: module
