@@ -39,9 +39,6 @@ export default {
       template: './index.html',
       favicon: './src/assets/favicon.ico',
     }),
-    new MiniCssExtractPlugin({
-      filename: 'css/[name].[contenthash].css',
-      chunkFilename: '[id].css',
-    }), new CleanWebpackPlugin(),
+    new MiniCssExtractPlugin(), new CleanWebpackPlugin(),
   ],
 };
