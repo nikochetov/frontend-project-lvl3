@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "build": "webpack --mode production",
-    "start": "webpack serve --open"
+    "start": "webpack serve --open",
+    "test": "npx jest --colors"
   },
   "jest": {
     "moduleNameMapper": {
