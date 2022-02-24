@@ -1,3 +1,4 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/style.css';
 import i18next from 'i18next';
 import { setLocale } from 'yup';
