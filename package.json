@@ -8,6 +8,11 @@
     "build": "webpack --mode production",
     "start": "webpack serve --open"
   },
+  "jest": {
+    "verbose": true,
+    "testURL": "http://localhost/",
+    "testEnvironment": "jsdom"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nikochetov/frontend-project-lvl3.git"
