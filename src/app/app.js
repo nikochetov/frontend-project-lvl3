@@ -1,11 +1,10 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../styles/style.css';
+import 'bootstrap';
 import i18next from 'i18next';
 import { setLocale } from 'yup';
 import resources from '../locales/index.js';
 import initView from './view.js';
 import { formChangesHandler, formSubmitHandler, modalHandler } from './handlers.js';
-import 'bootstrap';
 
 export default () => {
   const form = document.querySelector('form');

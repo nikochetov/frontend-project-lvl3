@@ -8,7 +8,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const isProd = () => process.env.NODE_ENV === 'production';
-console.log(process.env.NODE_ENV);
 
 export default {
   mode: process.env.NODE_ENV || 'development',
@@ -20,9 +19,6 @@ export default {
     path: path.resolve(__dirname, 'dist'),
     assetModuleFilename: 'assets/[hash][ext][query]',
     clean: true,
-  },
-  resolve: {
-    extensions: ['.js', '.json', '.png'],
   },
   devServer: {
     port: 4300,

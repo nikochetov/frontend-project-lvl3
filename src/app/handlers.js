@@ -29,7 +29,7 @@ export const formSubmitHandler = (state) => (event) => {
     })
     .catch((err) => {
       const currentState = state;
-      const [error] = err.errors;
+      const [error] = err?.errors;
       currentState.errors.formError = error;
       currentState.status = 'formError';
     });
