@@ -1,8 +1,8 @@
 import path from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
-import MiniCssWebpackPlugin from 'mini-css-extract-plugin';
 import { fileURLToPath } from 'url';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -24,20 +24,42 @@ export default {
   },
   module: {
     rules: [
-      { test: /\.css$/, use: ['style-loader', 'css-loader', 'postcss-loader'] },
-      {
-        test: /\.scss$/,
-        use: ['style-loader', 'css-loader', 'sass-loader', 'postcss-loader'],
-      },
       {
         test: /\.js$/,
-        exclude: /node_modules/,
+        exclude: /(node_modules)/,
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/preset-env'],
+            presets: [
+              '@babel/preset-env',
+            ],
           },
         },
+      },
+      // CSS, PostCSS, and Sass
+      {
+        test: /\.(scss|css)$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 2,
+              sourceMap: true,
+              url: false,
+            },
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [
+                  'autoprefixer',
+                ],
+              },
+            },
+          },
+        ],
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
@@ -50,7 +72,9 @@ export default {
       template: './index.html',
       favicon: './src/assets/favicon.ico',
     }),
-    new MiniCssWebpackPlugin(),
-    new CleanWebpackPlugin(),
+    new MiniCssExtractPlugin({
+      filename: 'css/[name].css',
+      chunkFilename: '[id].css',
+    }), new CleanWebpackPlugin(),
   ],
 };
