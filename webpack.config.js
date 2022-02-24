@@ -7,7 +7,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const isProd = () => process.env.NODE_ENV === 'production';
+// const isProd = () => process.env.NODE_ENV === 'production';
 
 export default {
   mode: process.env.NODE_ENV || 'development',
@@ -24,13 +24,20 @@ export default {
   },
   module: {
     rules: [
+      { test: /\.css$/, use: ['style-loader', 'css-loader', 'postcss-loader'] },
       {
-        test: /\.css$/i,
-        use: [isProd() ? MiniCssWebpackPlugin.loader : 'style-loader', 'css-loader'],
+        test: /\.scss$/,
+        use: ['style-loader', 'css-loader', 'sass-loader', 'postcss-loader'],
       },
       {
         test: /\.js$/,
-        use: 'babel-loader',
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env'],
+          },
+        },
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
