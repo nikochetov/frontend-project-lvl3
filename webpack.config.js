@@ -21,6 +21,9 @@ export default {
     assetModuleFilename: 'assets/[hash][ext][query]',
     clean: true,
   },
+  resolve: {
+    extensions: ['.js', '.json', '.png'],
+  },
   devServer: {
     port: 4300,
   },
