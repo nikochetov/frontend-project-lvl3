@@ -1,28 +1,28 @@
-/*!*@import "~bootstrap/dist/css/bootstrap.min.css";*!*/
+/*@import "~bootstrap/dist/css/bootstrap.min.css";*/
 
-/*h1 {*/
-/*    margin-left: 10px;*/
-/*    font-size: 3rem;*/
-/*    font-weight: normal;*/
-/*}*/
+h1 {
+    margin-left: 10px;
+    font-size: 3rem;
+    font-weight: normal;
+}
 
-/*.input-section {*/
-/*    display: flex;*/
-/*    align-items: center;*/
-/*    flex-direction: column;*/
-/*    width: 100%;*/
-/*    height: 200px;*/
-/*    background-color: #212529;*/
-/*}*/
+.input-section {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: 200px;
+    background-color: #212529;
+}
 
-/*ul {*/
-/*    padding: 0;*/
-/*    list-style-type: none;*/
-/*}*/
+ul {
+    padding: 0;
+    list-style-type: none;
+}
 
-/*.rss-logo {*/
-/*    width: 50px;*/
-/*    height: 50px;*/
-/*    background: url("/src/assets/rss_image.png") no-repeat;*/
-/*    background-size: cover;*/
-/*}*/
+.rss-logo {
+    width: 50px;
+    height: 50px;
+    background: url("/src/assets/rss_image.png") no-repeat;
+    background-size: cover;
+}
