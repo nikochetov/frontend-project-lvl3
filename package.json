@@ -18,6 +18,8 @@
     "project3"
   ],
   "jest": {
+    "verbose": true,
+    "testURL": "http://localhost/",
     "testEnvironment": "jsdom"
   },
   "author": "Nikolay Kochetov",
