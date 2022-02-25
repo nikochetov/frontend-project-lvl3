@@ -2,11 +2,11 @@
   "name": "@hexlet/code",
   "version": "1.0.0",
   "description": "RSS reader",
-  "main": "src/index.js",
+  "main": "src/app/app.js",
   "type": "module",
   "scripts": {
-    "build": "webpack --mode production",
-    "start": "webpack serve --open",
+    "start": "webpack serve",
+    "build": "NODE_ENV=production webpack",
     "test": "npx -n --experimental-vm-modules jest"
   },
   "repository": {
