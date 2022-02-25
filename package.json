@@ -17,6 +17,9 @@
     "rss",
     "project3"
   ],
+  "jest": {
+    "testEnvironment": "jsdom"
+  },
   "author": "Nikolay Kochetov",
   "license": "ISC",
   "bugs": {
