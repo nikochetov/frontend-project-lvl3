@@ -5,8 +5,9 @@
   "main": "src/app/app.js",
   "type": "module",
   "scripts": {
-    "start": "webpack serve",
-    "build": "NODE_ENV=production webpack",
+    "start": "NODE_ENV=development && webpack serve",
+    "build": "rm -rf dist && NODE_ENV=production && webpack",
+    "dev": "NODE_ENV=development && webpack",
     "test": "npx -n --experimental-vm-modules jest"
   },
   "repository": {
@@ -19,16 +20,15 @@
   ],
   "jest": {
     "testEnvironment": "jsdom",
-    "moduleNameMapper": {
-      "\\.(css|less)$": "identity-obj-proxy"
-    }
+    "verbose": true,
+    "testURL": "http://localhost/"
   },
   "author": "Nikolay Kochetov",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/nikochetov/frontend-project-lvl3/issues"
   },
-  "homepage": "https://github.com/nikochetov/frontend-project-lvl3#readme",
+  "homepage": "https://awesome-rss-reader.vercel.app/",
   "devDependencies": {
     "@testing-library/dom": "^8.11.3",
     "@testing-library/jest-dom": "^5.16.2",
