@@ -3,8 +3,12 @@ env:
   browser: true
   jest: true
 
+plugins:
+  - jest
+
 extends:
   - 'airbnb-base'
+  - 'plugin:jest/recommended'
 
 rules:
   import/extensions: 0
