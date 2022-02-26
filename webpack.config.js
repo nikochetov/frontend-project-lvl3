@@ -1,15 +1,15 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-// const { fileURLToPath } = require('url');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const path = require('path');
+import path from 'path';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import { CleanWebpackPlugin } from 'clean-webpack-plugin';
+import { fileURLToPath } from 'url';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const isProd = () => process.env.NODE_ENV === 'production';
 
-module.exports = {
+export default {
   mode: process.env.NODE_ENV || 'development',
   entry: {
     main: path.resolve(__dirname, 'src', 'index.js'),
