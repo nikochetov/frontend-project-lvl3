@@ -14,6 +14,8 @@ export const modalHandler = (state) => (event) => {
 };
 
 export const formSubmitHandler = (state) => (event) => {
+  const currentState = state;
+  currentState.status = 'submitted';
   event.preventDefault();
   const formData = new FormData(event.target);
   const rssInputValue = formData.get('url').trim();
@@ -23,18 +25,13 @@ export const formSubmitHandler = (state) => (event) => {
   ])
     .then(() => request(rssInputValue, state))
     .then(() => {
-      const currentState = state;
       currentState.feedsAddresses.push(rssInputValue);
       currentState.errors.requestError = '';
     })
-    .catch((err) => {
-      // console.log(err)
-      const currentState = state;
-      if (err) {
-        const [error] = err?.errors;
-        currentState.errors.formError = error;
-        currentState.status = 'formError';
-      }
+    .catch(() => {
+      // const [error] = err?.errors;
+      // currentState.errors.formError = error;
+      currentState.status = 'formError';
     });
 };
 

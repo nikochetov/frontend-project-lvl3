@@ -12,6 +12,13 @@ const createButton = (postId, i18nInstance) => {
   return button;
 };
 
+const setDisabledFormAndButtonCondition = (isDisabled) => {
+  const submitButton = document.querySelector('button[type="submit"]');
+  const rssInput = document.querySelector('input');
+  submitButton.disabled = isDisabled;
+  rssInput.readOnly = isDisabled;
+};
+
 const createCard = () => {
   const card = document.createElement('div');
   card.classList.add('card', 'border-0');
@@ -143,6 +150,7 @@ export default (state, i18Instance) => {
           showMessage('success', 'rss_state_messages.rss_success', i18Instance);
           render(container, watchedState, i18Instance, prop);
         });
+        setDisabledFormAndButtonCondition(false);
         input.value = '';
         input.focus();
         break;
@@ -157,12 +165,14 @@ export default (state, i18Instance) => {
 
       case 'requestError':
         showRequestErrorToast(watchedState.errors.requestError);
+        setDisabledFormAndButtonCondition(false);
         break;
 
       case 'formError':
         input.classList.remove('is-valid');
         input.classList.add('is-invalid');
         showMessage('fail', watchedState.errors.formError, i18Instance);
+        setDisabledFormAndButtonCondition(false);
         break;
 
       case 'openModal':
@@ -173,6 +183,10 @@ export default (state, i18Instance) => {
         input.classList.remove('is-valid');
         input.classList.remove('is-invalid');
         removeMessage();
+        break;
+
+      case 'submitted':
+        setDisabledFormAndButtonCondition(true);
         break;
 
       default:
