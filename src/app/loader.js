@@ -8,7 +8,7 @@ import { setDataToState, clearData } from './utils.js';
 
 const requestDelay = 5000;
 
-const buildAddressWithProxy = (address) => `https://hexlet-allorigins.herokuapp.com/get?url=${address}`;
+const buildAddressWithProxy = (address) => `https://hexlet-allorigins.herokuapp.com/get?disableCache=true&url=${address}`;
 
 const updateFeeds = (state) => {
   Promise.all(state.feedsAddresses.map((address) => axios.get(buildAddressWithProxy(address))))
