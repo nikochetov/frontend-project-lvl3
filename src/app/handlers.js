@@ -28,10 +28,13 @@ export const formSubmitHandler = (state) => (event) => {
       currentState.errors.requestError = '';
     })
     .catch((err) => {
+      // console.log(err)
       const currentState = state;
-      const [error] = err?.errors;
-      currentState.errors.formError = error;
-      currentState.status = 'formError';
+      if (err) {
+        const [error] = err?.errors;
+        currentState.errors.formError = error;
+        currentState.status = 'formError';
+      }
     });
 };
 
