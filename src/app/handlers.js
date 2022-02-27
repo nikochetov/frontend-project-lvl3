@@ -28,9 +28,9 @@ export const formSubmitHandler = (state) => (event) => {
       currentState.feedsAddresses.push(rssInputValue);
       currentState.errors.requestError = '';
     })
-    .catch(() => {
-      // const [error] = err?.errors;
-      // currentState.errors.formError = error;
+    .catch((err) => {
+      const [error] = err?.errors;
+      currentState.errors.formError = error;
       currentState.status = 'formError';
     });
 };

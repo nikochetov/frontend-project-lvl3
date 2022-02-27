@@ -1,13 +1,12 @@
 import * as yup from 'yup';
-
-const isRss = (status) => status.content_type.includes('application/rss+xml');
+import { isRss } from '../app/parser.js';
 
 yup.addMethod(yup.mixed, 'feed', function method(options) {
   const { message } = options;
   return this.test({
     name: 'feed',
     message,
-    test: (response) => isRss(response.data.status),
+    test: (response) => isRss(response.data.contents),
   });
 });
 

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { containRssValidator } from '../validators/index.js';
-import parseRssXml from './parser.js';
+import { parseRssXml } from './parser.js';
 import { setDataToState, clearData } from './utils.js';
 
 // Address for catch connection error:
@@ -38,10 +38,4 @@ export default (address, state) => axios.get(buildAddressWithProxy(address))
     const watchedState = state;
     watchedState.status = 'fulfilled';
   })
-  .then(() => setTimeout(updateFeeds, requestDelay, state))
-  .catch((err) => {
-    const { message } = err;
-    const watchedState = state;
-    watchedState.errors.requestError = message;
-    watchedState.status = 'requestError';
-  });
+  .then(() => setTimeout(updateFeeds, requestDelay, state));

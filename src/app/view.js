@@ -8,6 +8,7 @@ const createButton = (postId, i18nInstance) => {
   button.setAttribute('data-bs-target', '#rssDetailsModal');
   button.setAttribute('data-postId', postId);
   button.setAttribute('role', 'button');
+  button.setAttribute('aria-label', i18nInstance.t('buttons.moreButton'));
   button.classList.add('btn', 'btn-outline-primary', 'ms-1');
   button.textContent = i18nInstance.t('buttons.moreButton');
   return button;
