@@ -31,6 +31,12 @@ const updateFeeds = (state) => {
 };
 
 export default (address, state) => axios.get(buildAddressWithProxy(address))
+  .catch((err) => {
+    const { message } = err;
+    const watchedState = state;
+    watchedState.errors.requestError = message;
+    watchedState.status = 'requestError';
+  })
   .then((response) => containRssValidator().validate(response))
   .then((response) => parseRssXml(response.data.contents))
   .then((content) => {
@@ -38,10 +44,4 @@ export default (address, state) => axios.get(buildAddressWithProxy(address))
     const watchedState = state;
     watchedState.status = 'fulfilled';
   })
-  .then(() => setTimeout(updateFeeds, requestDelay, state))
-  .catch((err) => {
-    const { message } = err;
-    const watchedState = state;
-    watchedState.errors.requestError = message;
-    watchedState.status = 'requestError';
-  });
+  .then(() => setTimeout(updateFeeds, requestDelay, state));
