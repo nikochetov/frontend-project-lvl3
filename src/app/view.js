@@ -136,7 +136,7 @@ const showRequestErrorToast = (value) => {
   const toast = document.querySelector('.toast');
   const toastBody = document.querySelector('.toast-body');
   toast.classList.add(value.length ? 'show' : 'hide');
-  toastBody.textContent = value;
+  toastBody.textContent = 'Ошибка сети';
 };
 
 export default (state, i18Instance) => {
