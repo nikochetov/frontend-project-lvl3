@@ -10,8 +10,16 @@ const requestDelay = 5000;
 
 const buildAddressWithProxy = (address) => `https://hexlet-allorigins.herokuapp.com/get?disableCache=true&url=${address}`;
 
+const sendRequest = (address, state) => axios.get(buildAddressWithProxy(address))
+  .catch((err) => {
+    const { message } = err;
+    const watchedState = state;
+    watchedState.errors.requestError = message;
+    watchedState.status = 'requestError';
+  });
+
 const updateFeeds = (state) => {
-  Promise.all(state.feedsAddresses.map((address) => axios.get(buildAddressWithProxy(address))))
+  Promise.all(state.feedsAddresses.map((address) => sendRequest(address, state)))
     .then(axios.spread((...data) => data.map((elem) => parseRssXml(elem.data.contents))))
     .then((rssFeedData) => {
       clearData(state);
@@ -21,22 +29,10 @@ const updateFeeds = (state) => {
       const watchedState = state;
       watchedState.status = 'refresh';
     })
-    .then(() => setTimeout(updateFeeds, requestDelay, state))
-    .catch((err) => {
-      const { message } = err;
-      const watchedState = state;
-      watchedState.errors.requestError = message;
-      watchedState.status = 'requestError';
-    });
+    .then(() => setTimeout(updateFeeds, requestDelay, state));
 };
 
-export default (address, state) => axios.get(buildAddressWithProxy(address))
-  .catch((err) => {
-    const { message } = err;
-    const watchedState = state;
-    watchedState.errors.requestError = message;
-    watchedState.status = 'requestError';
-  })
+export default (address, state) => sendRequest(address, state)
   .then((response) => containRssValidator().validate(response))
   .then((response) => parseRssXml(response.data.contents))
   .then((content) => {
