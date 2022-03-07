@@ -3,6 +3,21 @@ import request from './loader.js';
 
 const getPost = (postId, state) => state.feedsData.posts.find((post) => post.guid === postId);
 
+const errorHandler = (state, err) => {
+  const currentState = state;
+  if (err.isAxiosError) {
+    const { message } = err;
+    const watchedState = state;
+    watchedState.errors.requestError = message;
+    watchedState.status = 'requestError';
+    return;
+  }
+
+  const [error] = err?.errors;
+  currentState.errors.formError = error;
+  currentState.status = 'formError';
+};
+
 export const modalHandler = (state) => (event) => {
   const button = event.relatedTarget;
   const { postid } = button.dataset;
@@ -28,11 +43,7 @@ export const formSubmitHandler = (state) => (event) => {
       currentState.feedsAddresses.push(rssInputValue);
       currentState.errors.requestError = '';
     })
-    .catch((err) => {
-      const [error] = err?.errors;
-      currentState.errors.formError = error;
-      currentState.status = 'formError';
-    });
+    .catch((err) => errorHandler(currentState, err));
 };
 
 export const formChangesHandler = (state) => (event) => {

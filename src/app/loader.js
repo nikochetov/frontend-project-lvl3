@@ -5,18 +5,13 @@ import { setDataToState, clearData } from './utils.js';
 
 // Address for catch connection error:
 // https://cors-anywhere.herokuapp.com/http://lorem-rss.herokuapp.com/feed
+// https://hexlet-allorigins.herokuapp.com/get?disableCache=true&url=https://ru.hexlet.io/lessons.rss
 
 const requestDelay = 5000;
 
 const buildAddressWithProxy = (address) => `https://hexlet-allorigins.herokuapp.com/get?disableCache=true&url=${address}`;
 
-const sendRequest = (address, state) => axios.get(buildAddressWithProxy(address))
-  .catch((err) => {
-    const { message } = err;
-    const watchedState = state;
-    watchedState.errors.requestError = message;
-    watchedState.status = 'requestError';
-  });
+const sendRequest = (address) => axios.get(buildAddressWithProxy(address));
 
 const updateFeeds = (state) => {
   Promise.all(state.feedsAddresses.map((address) => sendRequest(address, state)))
@@ -32,7 +27,8 @@ const updateFeeds = (state) => {
     .then(() => setTimeout(updateFeeds, requestDelay, state));
 };
 
-export default (address, state) => sendRequest(address, state)
+export default (address, state) => sendRequest(address)
+  .then((response) => response)
   .then((response) => containRssValidator().validate(response))
   .then((response) => parseRssXml(response.data.contents))
   .then((content) => {
