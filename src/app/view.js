@@ -141,6 +141,7 @@ const showRequestErrorToast = (value) => {
 
 export default (state, i18Instance) => {
   const input = document.querySelector('input');
+  const postsContainer = document.querySelector('.posts');
 
   const watchedState = onChange(state, (path, value) => {
     switch (value) {
@@ -177,9 +178,10 @@ export default (state, i18Instance) => {
         setDisabledFormAndButtonCondition(false);
         break;
 
-      case 'openModal':
-        renderModal(watchedState.selectedPost);
-        break;
+        // case 'openModal':
+        //   render(postsContainer, watchedState, i18Instance, 'posts');
+        //   renderModal(watchedState.selectedPost);
+        //   break;
 
       case 'typing':
         input.classList.remove('is-valid');
@@ -193,6 +195,11 @@ export default (state, i18Instance) => {
 
       default:
         if (path === 'state') throw Error('Unknown property');
+    }
+
+    if (path === 'selectedPost') {
+      render(postsContainer, watchedState, i18Instance, 'posts');
+      renderModal(value);
     }
   });
 

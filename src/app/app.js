@@ -7,6 +7,7 @@ import { formChangesHandler, formSubmitHandler, modalHandler } from './handlers.
 export default () => {
   const form = document.querySelector('form');
   const input = document.querySelector('input');
+  const modal = document.querySelector('#rssDetailsModal');
 
   const i18nInstance = i18next.createInstance();
 
@@ -49,7 +50,6 @@ export default () => {
 
   form.addEventListener('submit', formSubmitHandler(watchedState));
 
-  const modal = document.querySelector('#rssDetailsModal');
   modal.addEventListener('show.bs.modal', modalHandler(watchedState));
 
   input.addEventListener('input', formChangesHandler(watchedState));
