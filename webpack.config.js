@@ -9,11 +9,6 @@ export default {
   entry: {
     main: './src/index.js',
   },
-  output: {
-    filename: '[name].[contenthash].js',
-    path: './dist',
-    clean: true,
-  },
   devtool: 'source-map',
   devServer: {
     port: 4300,
