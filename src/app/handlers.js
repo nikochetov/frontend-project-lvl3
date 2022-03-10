@@ -18,12 +18,10 @@ const errorHandler = (state, err) => {
   currentState.status = 'formError';
 };
 
-export const modalHandler = (state) => (event) => {
-  const button = event.relatedTarget;
-  const { postid } = button.dataset;
+export const modalHandler = (state, postId) => {
   const currentState = state;
-  const selectedPost = getPost(postid, currentState);
-  currentState.checkedPostsIds.push(postid);
+  const selectedPost = getPost(postId, currentState);
+  currentState.checkedPostsIds.push(postId);
   currentState.selectedPost = selectedPost;
   currentState.status = 'openModal';
 };
