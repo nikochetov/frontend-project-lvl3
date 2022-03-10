@@ -13,7 +13,7 @@ const errorHandler = (state, err) => {
     return;
   }
 
-  const [error] = err?.errors;
+  const [error] = err.errors;
   currentState.errors.formError = error;
   currentState.status = 'formError';
 };
