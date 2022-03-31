@@ -9,7 +9,7 @@ import { setDataToState, clearData } from './utils.js';
 
 const requestDelay = 5000;
 
-const buildAddressWithProxy = (address) => `https://hexlet-allorigins.herokuapp.com/get?disableCache=true&url=${address}`;
+const buildAddressWithProxy = (address) => `https://allorigins.hexlet.app/get?disableCache=true&url=${address}`;
 // const buildAddressWithProxy = (address) => `${address}`;
 
 const sendRequest = (address) => axios.get(buildAddressWithProxy(address));
